@@ -1,0 +1,63 @@
+#generic:
+#update sec group to allow different traffics http(s) etc. See http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html#adding-security-group-rule 
+#
+#update instance sw to uptodate level
+sudo yum update -y
+#TODO: wait ~minute
+
+#install apache, php and mysql
+sudo yum install -y httpd24 php56 mysql55-server php56-mysqlnd
+
+#start web server.
+sudo service httpd start
+
+#Use the chkconfig command to configure the Apache web server to start at each system boot.
+sudo chkconfig httpd on
+
+#you can check that web server is up
+#chkconfig --list httpd
+#expected result ie 2,3,4 are on:    httpd           0:off   1:off   2:on    3:on    4:on    5:on    6:off
+
+#create group. add user. For more http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-LAMP.html
+sudo groupadd www
+sudo usermod -a -G www iot
+#logout & login in order to get above applied. After login you can check with "groups"
+
+#change owner, set rights for dir and (future) subdirs + have a group
+sudo chown -R root:www /var/www
+sudo chmod 2775 /var/www
+find /var/www -type d -exec sudo chmod 2775 {} \;
+find /var/www -type f -exec sudo chmod 0664 {} \;
+
+#node.js installation  http://iconof.com/blog/how-to-install-setup-node-js-on-amazon-aws-ec2-complete-guide/#installNode
+
+# get vattuMittari
+sudo git clone https://github.com/ansroman/VattuMittari.git
+#requires
+sudo npm install restify
+#to run vattumittari server end
+node nodeserver.js
+
+
+Example output:
+got temperature reading from RasPi. Timestamp Fri Jun 17 2016 12:26:53 GMT+0000 (UTC)
+req value: POST /sendMeasurements?temp=12&hum=1 HTTP/1.1
+host: 54.152.163.198:8080
+connection: keep-alive
+content-length: 0
+cache-control: no-cache
+origin: chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop
+user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36
+postman-token: 32626291-8046-4692-26b9-c7d2e4f2f664
+accept: */*
+accept-encoding: gzip, deflate
+accept-language: en-US,en;q=0.8
+
+res value: HTTP/1.1 200 OK
+
+next value: function () {
+    if (f.called) return f.value
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+
