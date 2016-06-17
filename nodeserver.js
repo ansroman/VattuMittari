@@ -5,6 +5,13 @@ var server = restify.createServer({
   version: '1.0.0'
 });
 
+function addZero(i) { // adds leading zero to timestamp to get double digit figure
+if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+}
+
 // REST API implementation for handling the push messages from the Raspberry Pi
 server.post('/sendMeasurements', function (req, res, next) {
     var time = new Date();
