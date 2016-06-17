@@ -8,13 +8,17 @@ var server = restify.createServer({
 // REST API implementation for handling the push messages from the Raspberry Pi
 server.post('/sendMeasurements', function (req, res, next) {
     var time = new Date();
-    var hh = addZero(time.getHours());
-    var mm = addZero(time.getMinutes());
-    var ss = addZero(time.getSeconds());
-    var consoleTime = hh + ":" + mm + ":" + ss; 
+    //var myMessage = JSON.parse(req);
+    //var hh = addZero(time.getHours());
+    //var mm = addZero(time.getMinutes());
+    //var ss = addZero(time.getSeconds());
+    //var consoleTime = hh + ":" + mm + ":" + ss; 
     
-    console.log('got temperature reading from RasPi. Timestamp ' + consoleTime); // remove this
-    handleSenses(req.params[0].senses, time);
+    console.log('got temperature reading from RasPi. Timestamp ' + time); // remove this
+    console.log('req value: ' + req); // remove this
+    console.log('res value: ' + res); // remove this
+    console.log('next value: ' + next); // remove this
+    //handleSenses(req.params[0].senses, time);
 
     res.send(Number(200)); // send reply
     next();
